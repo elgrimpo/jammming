@@ -51,10 +51,39 @@ const Spotify = {
                 })) 
             }
         })
-    }
+    },
+
+    savePlaylist(playlistName, trackURIs) {
+        accessToken = this.getAccessToken()
+        const headers = {Authorization : `Bearer ${accessToken}`}
+        let userID;
+
+        fetch('//api.spotify.com/v1/me', {headers : headers})
+        .then(response => response.json())
+        .then(jsonResponse => {
+            userID = jsonResponse.id
+            return fetch(`//api.spotify.com/v1/users/${userID}/playlists`, 
+                {
+                headers : headers,
+                method: 'POST',
+                body: JSON.stringify({name : playlistName})
+                }
+            )
+        })
+        .then(response => response.json())
+        .then(jsonResponse => {
+            const playlist = jsonResponse.id
+            return fetch(`/v1/users/${userID}/playlists/${playlist}/tracks`,
+            {
+                headers: headers,
+                method: 'POST',
+                body: JSON.stringify({uris : trackURIs})
+            }
+        )
+    })
 
     }
-
+}
 
 
 
