@@ -3,6 +3,7 @@ import {SearchBar} from './SearchBar/SearchBar'
 import {SearchResults} from './SearchResults/SearchResults'
 import {Playlist} from './Playlist/Playlist'
 import React from 'react';
+import Spotify from '../util/Spotify.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -21,6 +22,10 @@ class App extends React.Component {
 
   search(input) {
     console.log(input)
+    Spotify.search(input).then(results => {
+      this.setState({searchResults : results})
+    })
+    
   }
 
   addTrack(track) {

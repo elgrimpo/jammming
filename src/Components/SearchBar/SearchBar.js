@@ -10,7 +10,7 @@ export class SearchBar extends React.Component {
     }
     
     search() {
-        this.props.search(this.term)
+        this.props.onSearch(this.state.term)
     }
 
     handleNameChange(e) {
